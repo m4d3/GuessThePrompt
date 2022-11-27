@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import imgData from '../assets/imgs.json';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,7 @@ import imgData from '../assets/imgs.json';
 
 export class AppComponent implements OnInit {
   title = 'ng_test';
+  isMobileLayout = false;
   counter = 0;
   score = 0;
   mode = 0;
@@ -18,6 +20,24 @@ export class AppComponent implements OnInit {
   correctAnswers:string[] = [];
   wrongAnswers:string[] = [];
   missedAnswers:string[] = [];
+
+  constructor(breakpointObserver: BreakpointObserver) {
+    breakpointObserver
+      .observe([
+        Breakpoints.XSmall,
+        Breakpoints.Small,
+        Breakpoints.Medium,
+        Breakpoints.Large,
+        Breakpoints.XLarge,
+      ])
+      .subscribe(result => {
+        for (const query of Object.keys(result.breakpoints)) {
+          if (result.breakpoints[query]) {
+            console.log(query);
+          }
+        }
+      });
+    }
 
   public imgList:{src:string, prompt:string}[] = imgData;
   public GameData: { src: string; prompt_tags: string[]; }[] = [];
@@ -66,6 +86,9 @@ export class AppComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    this.isMobileLayout = window.innerWidth <= 991;
+    window.onresize = () => this.isMobileLayout = window.innerWidth <= 991;
+
     for(let img of this.imgList) {
       let array = Array.from(new Set(img.prompt.split(/[\s,]+/)));
       this.GameData.push({src: img.src, prompt_tags: array});

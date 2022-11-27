@@ -3,8 +3,10 @@
       flex-flow: column
       max-width: 1000px
       margin: 0 auto
-      margin-top: 3rem
-      height: calc(100% - 50px - 3rem)
+      padding-top: 50px
+      padding-left: 1rem
+      padding-right: 1rem
+      height: calc(100% - 50px)
 
       h1
         font-family: 'Permanent Marker' !important
@@ -24,10 +26,19 @@
       .result_c
          display: flex
          flex-flow: row
+         flex-wrap: warp
          width: max-content
+         max-width: 100%
 
       .result-title
         font-weight: bold
         margin-right: 1rem
         min-width: 100px
         width: max-content
+
+.footer
+  display: flex
+  justify-content: center
+  align-items: flex-end
+  height: 100%
+  padding: 0.5rem 0
