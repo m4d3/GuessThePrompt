@@ -27,8 +27,15 @@
          display: flex
          flex-flow: row
          flex-wrap: warp
-         width: max-content
-         max-width: 100%
+         width: calc(100% - 2rem)
+         align-items: center
+         padding: 0 1rem
+         &:nth-child(2n)
+            background-color: #efefef
+
+         p
+          padding: 0.5rem 0
+          margin: 0
 
       .result-title
         font-weight: bold

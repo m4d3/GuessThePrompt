@@ -31,8 +31,7 @@
       </mat-card>
   </div>
 
-    <mat-card *ngIf="showAnswers" style="margin-top: 1rem;">        
-        <mat-card-content>
+    <mat-card *ngIf="showAnswers" style="margin-top: 1rem; padding: 1rem 0">        
             <div style=" display: flex; flex-flow: column;">
               <div class="result_c">
                 <p class="result-title">Prompt</p>
@@ -58,10 +57,8 @@
                 <p class="result-title">Points</p>
                 <p style="width: 2rem; text-align: right; margin-right: 1rem;"><strong>{{pointsInRound}}</strong></p>
                 <p>({{correctAnswers.length}} * 5 - {{wrongAnswers.length}})</p>
-              </div>
-              
+              </div>              
             </div>
-        </mat-card-content>
     </mat-card>
     <div class="footer">made by info@matthiasewald.com</div>      
 </div>
