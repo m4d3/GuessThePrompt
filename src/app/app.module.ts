@@ -12,15 +12,19 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 import { ImgCardComponent } from './img-card/img-card.component';
 import { UserTxtInputComponent } from './user-txt-input/user-txt-input.component';
+import { FinishDialogComponent } from './finish-dialog/finish-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ImgCardComponent,
-    UserTxtInputComponent
+    UserTxtInputComponent,
+    FinishDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -32,11 +36,22 @@ import { UserTxtInputComponent } from './user-txt-input/user-txt-input.component
     MatCardModule,
     MatGridListModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule,
+    MatToolbarModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [
+    FinishDialogComponent
+  ]
 })
 export class AppModule {
 
  }
+
+export interface DialogData {
+  score: 0;
+}

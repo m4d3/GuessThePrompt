@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import imgData from '../assets/imgs.json';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FinishDialogComponent } from './finish-dialog/finish-dialog.component';
+import { DialogData } from './app.module';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +14,7 @@ import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 export class AppComponent implements OnInit {
   title = 'ng_test';
   isMobileLayout = false;
+  finished = false;
   counter = 0;
   score = 0;
   mode = 0;
@@ -21,7 +25,7 @@ export class AppComponent implements OnInit {
   wrongAnswers:string[] = [];
   missedAnswers:string[] = [];
 
-  constructor(breakpointObserver: BreakpointObserver) {
+  constructor(breakpointObserver: BreakpointObserver, public dialog: MatDialog) {
     breakpointObserver
       .observe([
         Breakpoints.XSmall,
@@ -40,25 +44,23 @@ export class AppComponent implements OnInit {
     }
 
   public imgList:{src:string, prompt:string}[] = imgData;
-  public GameData: { src: string; prompt_tags: string[]; }[] = [];
-
-  public getImgData() {
-      return { source: this.GameData[this.counter].src, tags: this.GameData[this.counter].prompt_tags };
-  };
 
   public onSubmit() {
+
     if(!this.showAnswers) {
       let userInput = (<HTMLInputElement>document.getElementById("prompt_in")).value;
-      
+      // make tag array by slit and add unique
+      let currentPromptTags = Array.from(new Set(this.imgList[this.counter].prompt.split(/[\s,]+/)));
+
       if(userInput.includes(",") || userInput.includes(" ")) {
         Array.from(new Set(userInput.split(/[\s,]+/))).forEach(value => {
-          this.checkInput(value);
+          this.checkInput(value, currentPromptTags);
         });
       } else {
         console.log("single input");
-        this.checkInput(userInput);
+        this.checkInput(userInput, currentPromptTags);
       }
-      for(let tag of this.GameData[this.counter].prompt_tags) {
+      for(let tag of currentPromptTags) {
         if(!this.correctAnswers.includes(tag))
           this.missedAnswers.push(tag);
       };
@@ -80,7 +82,8 @@ export class AppComponent implements OnInit {
 
       this.showAnswers = false;
       } else {
-        // finished all images
+        this.finished = true;
+        this.openFinishedDialog();
       }
     }
   };
@@ -89,29 +92,43 @@ export class AppComponent implements OnInit {
     this.isMobileLayout = window.innerWidth <= 991;
     window.onresize = () => this.isMobileLayout = window.innerWidth <= 991;
 
-    for(let img of this.imgList) {
-      let array = Array.from(new Set(img.prompt.split(/[\s,]+/)));
-      this.GameData.push({src: img.src, prompt_tags: array});
-    }
+    this.imgList = this.imgList.sort(() => Math.random() - 0.5);
+
+    // for(let img of this.imgList) {
+    //   let array = Array.from(new Set(img.prompt.split(/[\s,]+/)));
+    //   this.GameData.push({src: img.src, prompt_tags: array});
+    // }
+    // this.GameData = this.GameData.sort(() => Math.random() - 0.5);
   };
 
-  checkInput(input:string) {
+  checkInput(input:string, checkAgainst:string[]) {
     let correct = false;
     let userInput = input.trim().toLowerCase();
-    for(let tag of this.GameData[this.counter].prompt_tags) {
+    for(let tag of checkAgainst) {
+    //for(let tag of this.GameData[this.counter].prompt_tags) {
       let tagString = tag.trim().toLowerCase();
       console.log(tag);
-      if(userInput === tagString) { 
-        correct = true; 
+      if(userInput === tagString) {
+        correct = true;
       }
     };
     if(!correct) {
-        this.wrongAnswers.push(userInput);      
-    } else {      
-        this.correctAnswers.push(userInput);     
+        this.wrongAnswers.push(userInput);
+    } else {
+        this.correctAnswers.push(userInput);
     }
     console.log("correct: "+correct+" input: "+userInput);
     return correct;
   }
-}
 
+  openFinishedDialog() {
+    const dialogRef = this.dialog.open(FinishDialogComponent, {
+      data: {
+        score: this.score,
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+}
