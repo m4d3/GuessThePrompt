@@ -11,7 +11,9 @@
     <div class="user_box">
         <div *ngIf="!isMobileLayout">
             <mat-card style="width: 120px; height: 100%; margin-right: 1rem;">
-              <mat-card-title style="text-align: center; padding-top: 0.5rem;"><p>Score</p></mat-card-title>
+                <mat-card-title style="text-align: center; padding-top: 0.5rem;">
+                    <p>Score</p>
+                </mat-card-title>
                 <p style="font-family: 'Permanent Marker'; font-size: 3rem; margin: 1rem auto;">{{score}}</p>
             </mat-card>
         </div>
@@ -25,40 +27,85 @@
     </div>
 
     <div *ngIf="isMobileLayout">
-      <mat-card style="width: 100%; height: 120px; margin: 1rem 0;">
-        <mat-card-title style="text-align: center; padding-top: 0.5rem;"><p>Score</p></mat-card-title>
-          <p style="font-family: 'Permanent Marker'; font-size: 3rem; margin: 1rem auto;">{{score}}</p>
-      </mat-card>
-  </div>
+        <mat-card style="width: 100%; height: 120px; margin: 1rem 0;">
+            <mat-card-title style="text-align: center; padding-top: 0.5rem;">
+                <p>Score</p>
+            </mat-card-title>
+            <p style="font-family: 'Permanent Marker'; font-size: 3rem; margin: 1rem auto;">{{score}}</p>
+        </mat-card>
+    </div>
 
-    <mat-card *ngIf="showAnswers" style="margin-top: 1rem; padding: 1rem 0">        
-            <div style=" display: flex; flex-flow: column;">
-              <div class="result_c">
+    <mat-card *ngIf="showAnswers" style="margin-top: 1rem; padding: 1rem 0">
+        <div style=" display: flex; flex-flow: column;" *ngIf="!isMobileLayout">
+            <div class="result_c">
                 <p class="result-title">Prompt</p>
-                <p style="width: 2rem; margin-right: 1rem;"></p>
+                <p class="result_counter"></p>
                 <p>{{imgList[counter].prompt}}</p>
-              </div>
-              <div style="color: green;" class="result_c" *ngIf="correctAnswers">
-                <p class="result-title">Correct</p>
-                <p style="width: 2rem; text-align: right; margin-right: 1rem;">{{correctAnswers.length}}</p>
-                <p><span *ngFor="let item of correctAnswers">{{item}} </span></p>
-              </div>
-              <div class="result_c" *ngIf="missedAnswers">
-                <p class="result-title">Missed</p>
-                <p style="width: 2rem; text-align: right; margin-right: 1rem;">{{missedAnswers.length}}</p>
-                <p><span *ngFor="let item of missedAnswers">{{item}} </span></p>
-              </div>
-              <div style="color: red;" class="result_c" *ngIf="wrongAnswers">
-                <p class="result-title">Wrong</p>
-                <p style="width: 2rem; text-align: right; margin-right: 1rem;">{{wrongAnswers.length}}</p>
-                <p><span *ngFor="let item of wrongAnswers">{{item}} </span></p>
-              </div>
-              <div class="result_c">
-                <p class="result-title">Points</p>
-                <p style="width: 2rem; text-align: right; margin-right: 1rem;"><strong>{{pointsInRound}}</strong></p>
-                <p>({{correctAnswers.length}} * 5 - {{wrongAnswers.length}})</p>
-              </div>              
             </div>
+            <div style="color: green;" class="result_c" *ngIf="correctAnswers">
+                <p class="result-title">Correct</p>
+                <p class="result_counter">{{correctAnswers.length}}</p>
+                <p>
+                    <span *ngFor="let item of correctAnswers">{{item}}
+                    </span>
+                </p>
+            </div>
+            <div class="result_c" *ngIf="missedAnswers">
+                <p class="result-title">Missed</p>
+                <p class="result_counter">{{missedAnswers.length}}</p>
+                <p>
+                    <span *ngFor="let item of missedAnswers">{{item}}
+                    </span>
+                </p>
+            </div>
+            <div style="color: red;" class="result_c" *ngIf="wrongAnswers">
+                <p class="result-title">Wrong</p>
+                <p class="result_counter">{{wrongAnswers.length}}</p>
+                <p>
+                    <span *ngFor="let item of wrongAnswers">{{item}}
+                    </span>
+                </p>
+            </div>
+            <div class="result_c">
+                <p class="result-title">Points</p>
+                <p class="result_counter">
+                    <strong>{{pointsInRound}}</strong>
+                </p>
+                <p>({{correctAnswers.length}}
+                    * 5 -
+                    {{wrongAnswers.length}})</p>
+            </div>
+        </div>
+        <div style=" display: flex; flex-flow: column;" class="result_mobile" *ngIf="isMobileLayout">
+          <div style="margin: 0 1rem;">
+              <p class="result-title">Prompt</p>
+              <p>{{imgList[counter].prompt}}</p>
+          </div>
+          <div style="color: green; margin: 0 1rem;" *ngIf="correctAnswers">
+              <p class="result-title">Correct {{correctAnswers.length}}</p>
+              <p>
+                  <span *ngFor="let item of correctAnswers">{{item}}
+                  </span>
+              </p>
+          </div>
+          <div style="margin: 0 1rem;" *ngIf="missedAnswers">
+              <p class="result-title">Missed {{missedAnswers.length}}</p>
+              <p>
+                  <span *ngFor="let item of missedAnswers">{{item}}
+                  </span>
+              </p>
+          </div>
+          <div style="color: red; margin: 0 1rem;" *ngIf="wrongAnswers">
+              <p class="result-title">Wrong {{wrongAnswers.length}}</p>
+              <p>
+                  <span *ngFor="let item of wrongAnswers">{{item}}
+                  </span>
+              </p>
+          </div>
+          <div style="margin: 0 1rem;">
+              <p class="result-title">Points {{pointsInRound}} ({{correctAnswers.length}} * 5 - {{wrongAnswers.length}})</p>
+          </div>
+      </div>
     </mat-card>
-    <div class="footer">made by info@matthiasewald.com</div>      
+    <div class="footer">made by info@matthiasewald.com</div>
 </div>
