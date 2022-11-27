@@ -34,19 +34,25 @@
               </div>
               <div style="color: green;" class="result_c" *ngIf="correctAnswers">
                 <p class="result-title">Correct</p>
-                <p style="width: 2rem; text-align: right; margin-right: 1rem;">+{{correctAnswers.length}}</p>
+                <p style="width: 2rem; text-align: right; margin-right: 1rem;">{{correctAnswers.length}}</p>
                 <p><span *ngFor="let item of correctAnswers">{{item}} </span></p>
               </div>
               <div class="result_c" *ngIf="missedAnswers">
                 <p class="result-title">Missed</p>
-                <p style="width: 2rem; text-align: right; margin-right: 1rem;">={{missedAnswers.length}}</p>
+                <p style="width: 2rem; text-align: right; margin-right: 1rem;">{{missedAnswers.length}}</p>
                 <p><span *ngFor="let item of missedAnswers">{{item}} </span></p>
               </div>
               <div style="color: red;" class="result_c" *ngIf="wrongAnswers">
                 <p class="result-title">Wrong</p>
-                <p style="width: 2rem; text-align: right; margin-right: 1rem;">-{{wrongAnswers.length}}</p>
+                <p style="width: 2rem; text-align: right; margin-right: 1rem;">{{wrongAnswers.length}}</p>
                 <p><span *ngFor="let item of wrongAnswers">{{item}} </span></p>
               </div>
+              <div class="result_c">
+                <p class="result-title">Points earned:</p>
+                <p style="width: 2rem; text-align: right; margin-right: 1rem;"><strong>{{pointsInRound}}</strong></p>
+                <p>{{correctAnswers.length}} * 5 - {{wrongAnswers.length}}</p>
+              </div>
+              
             </div>
         </mat-card-content>
     </mat-card>    

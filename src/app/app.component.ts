@@ -12,6 +12,7 @@ export class AppComponent implements OnInit {
   counter = 0;
   score = 0;
   mode = 0;
+  pointsInRound = 0;
   buttonText = "Submit";
   showAnswers = false;
   correctAnswers:string[] = [];
@@ -41,6 +42,8 @@ export class AppComponent implements OnInit {
         if(!this.correctAnswers.includes(tag))
           this.missedAnswers.push(tag);
       };
+      this.pointsInRound = this.correctAnswers.length * 5 - this.wrongAnswers.length;
+      this.score += this.pointsInRound;
       this.buttonText = "Next Image";
       this.showAnswers = true;
       //this.counter += 1;
@@ -50,6 +53,7 @@ export class AppComponent implements OnInit {
       this.wrongAnswers = [];
       this.correctAnswers = [];
       this.missedAnswers = [];
+      this.pointsInRound = 0;
       this.buttonText = "Submit";
 
       (<HTMLInputElement>document.getElementById("prompt_in")).value = '';
@@ -74,8 +78,7 @@ export class AppComponent implements OnInit {
     for(let tag of this.GameData[this.counter].prompt_tags) {
       let tagString = tag.trim();
       console.log(tag);
-      if(userInput === tagString) {
-        this.score += 1;      
+      if(userInput === tagString) { 
         correct = true; 
       }
     };
