@@ -35,7 +35,7 @@
         <mat-card-content>
             <div style=" display: flex; flex-flow: column;">
               <div class="result_c">
-                <p class="result-title">Full prompt</p>
+                <p class="result-title">Prompt</p>
                 <p style="width: 2rem; margin-right: 1rem;"></p>
                 <p>{{imgList[counter].prompt}}</p>
               </div>
@@ -55,9 +55,9 @@
                 <p><span *ngFor="let item of wrongAnswers">{{item}} </span></p>
               </div>
               <div class="result_c">
-                <p class="result-title">Points earned:</p>
+                <p class="result-title">Points</p>
                 <p style="width: 2rem; text-align: right; margin-right: 1rem;"><strong>{{pointsInRound}}</strong></p>
-                <p>{{correctAnswers.length}} * 5 - {{wrongAnswers.length}}</p>
+                <p>({{correctAnswers.length}} * 5 - {{wrongAnswers.length}})</p>
               </div>
               
             </div>

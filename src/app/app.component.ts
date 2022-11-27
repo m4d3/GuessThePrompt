@@ -97,9 +97,9 @@ export class AppComponent implements OnInit {
 
   checkInput(input:string) {
     let correct = false;
-    let userInput = input.trim();
+    let userInput = input.trim().toLowerCase();
     for(let tag of this.GameData[this.counter].prompt_tags) {
-      let tagString = tag.trim();
+      let tagString = tag.trim().toLowerCase();
       console.log(tag);
       if(userInput === tagString) { 
         correct = true; 
